@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-// require('dotenv').config(); // Load environment variables
+require('dotenv').config(); 
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -15,11 +15,12 @@ app.use(express.json()); // To parse incoming JSON requests
 // ===================================================================
 // 2. DATABASE CONNECTION
 // ===================================================================
-const MONGODB_URI = 'mongodb://localhost:27017/glamtipsdb'; 
-mongoose.connect(MONGODB_URI)
-     .then(() => console.log('✅ MongoDB connected successfully'))
-     .catch(err => console.error('❌ MongoDB connection error:', err));
+// Use the variable from your .env file, or fall back to local if .env is missing
+const MONGODB_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/glamtipsdb'; 
 
+mongoose.connect(MONGODB_URI)
+     .then(() => console.log('✅ Connected to GlamTips Cloud Database'))
+     .catch(err => console.error('❌ MongoDB connection error:', err));
 
 // ===================================================================
 // 3. MONGOOSE MODELS (Defined here for simplicity)
@@ -362,4 +363,5 @@ app.post('/api/admin/services', async (req, res) => {
 app.listen(port, () => {
      console.log(`🚀 Glam Tips API is running on port: ${port}`);
 });
+
 
